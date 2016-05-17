@@ -117,11 +117,18 @@
     return Article.allAuthors().map(function(a) { // 'a' is a reference to an individual author.
       return {
         name: a,
-        numWords: someCollection.filter(function(curArticle) {
+        numWords: Article.all.filter(function(curArticle) {
         //  what do we return here to check for matching authors?
+          if (a === curArticle.author){
+            return curArticle;
+          }
         })
-        .map(...) // use .map to return the author's word count for each article's body (hint: regexp!).
-        .reduce(...) // squash this array of numbers into one big number!
+        .map(function(a){
+          return a.body.match(/\b\w+/g).length;
+        }) // use .map to return the author's word count for each article's body (hint: regexp!).
+        .reduce(function(a, b){
+          return a + b;
+        }) // squash this array of numbers into one big number!
       };
     });
   };
